@@ -129,7 +129,6 @@ bool MenuUser::kiemTraSoTien(long long llSoTien) const {
     return true;
 }
 
-//chức năng 2: Nạp tiền
 // Chuc nang 2: Nap tien
 void MenuUser::napTien() {
     ConsoleUtil::xoaManHinh();
@@ -234,10 +233,17 @@ void MenuUser::rutTien() {
     }
 
     ConsoleUtil::inMau("So du hien tai: " + to_string((long long)tk.getSoDu()) + " " + tk.getLoaiTienTe(), ConsoleUtil::Mau::XANH_LA_SANG);
-    
+
     long long llSoTien = ConsoleUtil::nhapSoNguyen("\nNhap so tien can rut: ");
 
     if (!kiemTraSoTien(llSoTien)) {
+        ConsoleUtil::tamDung();
+        return;
+    }
+
+    // Kiem tra so tien rut toi thieu
+    if (llSoTien < 50000) {
+        ConsoleUtil::inLoi("So tien rut toi thieu la 50.000 VND!");
         ConsoleUtil::tamDung();
         return;
     }
@@ -270,17 +276,18 @@ void MenuUser::rutTien() {
     }
 
     ConsoleUtil::inThanhCong("Rut tien thanh cong!");
-    
+
     vector<string> ketQua = {
         "So tien da rut : " + to_string(llSoTien) + " " + tk.getLoaiTienTe(),
         "So du con lai  : " + to_string((long long)tk.getSoDu()) + " " + tk.getLoaiTienTe()
     };
+
     ConsoleUtil::veKhung(ketQua, "HOA DON GIAO DICH", ConsoleUtil::Mau::XANH_LA_SANG);
 
     ConsoleUtil::tamDung();
 }
 
-// Chuc nang 3: Chuyen tien
+// Chuc nang 4: Chuyen tien
 void MenuUser::chuyenTien() {
     ConsoleUtil::xoaManHinh();
     ConsoleUtil::veTieuDe("GIAO DICH CHUYEN TIEN", ConsoleUtil::Mau::XANH_LAM_SANG);

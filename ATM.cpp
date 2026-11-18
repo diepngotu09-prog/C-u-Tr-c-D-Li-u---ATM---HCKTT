@@ -156,7 +156,7 @@ void ATM::dangNhapUser() {
 bool ATM::doiPinLanDau(TheTu& theTu) {
 	ConsoleUtil::xoaManHinh();
 	ConsoleUtil::veTieuDe("DOI MA PIN LAN DAU");
-	ConsoleUtil::inLoi(" Day la lan dang nhap dau tien, ban phai doi ma PIN.");
+	ConsoleUtil::inCanGiua("Day la lan dang nhap dau tien, ban phai doi ma PIN.", ConsoleUtil::Mau::DO_SANG);
 
 	for (int iLanThu = 0; iLanThu < MAX_LOGIN_ATTEMPTS; ++iLanThu) {
 		if (this->nhapVaDoiPin(theTu)) {
