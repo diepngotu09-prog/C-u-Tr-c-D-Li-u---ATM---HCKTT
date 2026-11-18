@@ -1,0 +1,4 @@
+Ma so tai khoan (ID): 12345678901234
+Ten chu tai khoan: Nguyen Van A
+So du: 5000000
+Loai tien: VND
