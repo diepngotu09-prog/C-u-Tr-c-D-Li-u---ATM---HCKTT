@@ -1,0 +1,39 @@
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Build
+Debug/
+Release/
+x64/
+x86/
+build/
+Build/
+bin/
+obj/
+
+# File bien dich
+*.exe
+*.dll
+*.obj
+*.o
+*.pdb
+*.ilk
+*.idb
+*.lib
+*.exp
+
+# File tam
+*.tmp
+*.log
+*.bak
+*.swp
+*.cache
+
+# He thong
+.DS_Store
+Thumbs.db
+desktop.ini

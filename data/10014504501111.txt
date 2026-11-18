@@ -1,0 +1,4 @@
+ID: 10014504501111
+Ten tai khoan: Nguyen Trung Kien
+So du tai khoan: 1100000
+Don vi: VND

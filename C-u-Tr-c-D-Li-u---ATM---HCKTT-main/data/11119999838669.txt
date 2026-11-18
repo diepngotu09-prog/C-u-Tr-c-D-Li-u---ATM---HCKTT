@@ -1,0 +1,4 @@
+Ma so tai khoan (ID): 11119999838669
+Ten chu tai khoan: Nguyen Chi Thanh
+So du: 50000
+Loai tien: EUR

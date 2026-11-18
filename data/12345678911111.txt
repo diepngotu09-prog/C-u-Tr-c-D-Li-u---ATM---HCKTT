@@ -1,0 +1,4 @@
+ID: 12345678911111
+Ten tai khoan: SHDSVGUDV
+So du tai khoan: 90200000
+Don vi: VND
