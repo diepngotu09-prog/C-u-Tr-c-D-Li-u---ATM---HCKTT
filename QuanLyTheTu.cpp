@@ -149,7 +149,7 @@ bool QuanLyTheTu::ghiFile(const string& strDuongDan) const{
 
 void QuanLyTheTu::hienThiDanhSach() const {
     if (this->_lstDanhSachThe.rong()) {
-        cout << "Danh sach the tu trong!\n";
+        ConsoleUtil::inThongBao("Danh sach the tu trong!\n");
         return;
     }
 
@@ -360,7 +360,10 @@ bool QuanLyTheTu::kiemTraDangNhap(const string& strID, const string& strPIN){
     TheTu* pTheTu = this->timTheoID(strID);
 
     if (pTheTu == nullptr || pTheTu->getBiKhoa()){
+        ConsoleUtil::datMau(ConsoleUtil::Mau::XANH_DUONG_SANG);
         cout << "The khong ton tai hoac da bi khoa!\n";
+        ConsoleUtil::datLaiMau();
+        cout << '\n';
         return false;
     }
 
@@ -375,12 +378,17 @@ bool QuanLyTheTu::kiemTraDangNhap(const string& strID, const string& strPIN){
 
     if (this->_mapSoLanNhapSai[strID] >= MAX_LAN_NHAP_SAI){
         pTheTu->khoaThe();
+        ConsoleUtil::datMau(ConsoleUtil::Mau::DO_SANG);
         cout << "The da bi khoa do nhap sai PIN 3 lan!\n";
+        ConsoleUtil::datLaiMau();
+        cout << '\n';
         this->ghiFile();
         return false;
     }
-
+    ConsoleUtil::datMau(ConsoleUtil::Mau::DO_SANG);
     cout << "PIN khong chinh xac! Ban con "<< iSoLanConLai << " lan thu.\n";
+    ConsoleUtil::datLaiMau();
+    cout << '\n';
     return false;
 }
 
