@@ -9,7 +9,7 @@ Ma PIN: 123456
 Trang thai: Hoat dong
 Ma so tai khoan (ID): 10014504501114
 Ma PIN: 234567
-Trang thai: Hoat dong
+Trang thai: Da khoa
 Ma so tai khoan (ID): 10014504501115
 Ma PIN: 234567
 Trang thai: Hoat dong
