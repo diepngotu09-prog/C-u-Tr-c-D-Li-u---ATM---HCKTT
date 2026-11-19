@@ -31,6 +31,7 @@ public:
     std::string getThoiGian() const;
 
     std::string layTenLoai() const;
+    ConsoleUtil::Mau layMauLoai() const;
     std::string chuyenThanhDong() const;
     bool docTuDong(const std::string& strDong);
     void hienThi() const;
