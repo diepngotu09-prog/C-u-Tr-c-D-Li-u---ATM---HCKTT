@@ -1,14 +1,8 @@
 #include "ConsoleUtil.h"
 
-#ifdef _WIN32
-    #define NOMINMAX 
-    #include <windows.h>
-    #include <conio.h>
-#else
-    #include <termios.h>
-    #include <unistd.h>
-    #include <sys/ioctl.h>
-#endif
+#define NOMINMAX
+#include <windows.h>
+#include <conio.h>
 
 #include <iostream>
 #include <iomanip>
@@ -17,10 +11,7 @@
 #include <cctype>
 
 namespace ConsoleUtil {
-
-    // Khoi tao che do ANSI terminal tren Windows 10+ va UTF-8
     void khoiTaoConsole() {
-#ifdef _WIN32
         HANDLE hOut = GetStdHandle(STD_OUTPUT_HANDLE);
         if (hOut != INVALID_HANDLE_VALUE) {
             DWORD dwMode = 0;
@@ -29,8 +20,7 @@ namespace ConsoleUtil {
                 SetConsoleMode(hOut, dwMode);
             }
         }
-        SetConsoleOutputCP(65001); // Cau hinh UTF-8
-#endif
+        SetConsoleOutputCP(65001); 
     }
 
     void xoaManHinh() {
@@ -95,20 +85,12 @@ namespace ConsoleUtil {
     }
 
     int layChieuRongConsole() {
-#ifdef _WIN32
         CONSOLE_SCREEN_BUFFER_INFO csbi;
         int columns = 80;
         if (GetConsoleScreenBufferInfo(GetStdHandle(STD_OUTPUT_HANDLE), &csbi)) {
             columns = csbi.srWindow.Right - csbi.srWindow.Left + 1;
         }
         return columns > 0 ? columns : 80;
-#else
-        struct winsize w;
-        if (ioctl(STDOUT_FILENO, TIOCGWINSZ, &w) == 0 && w.ws_col > 0) {
-            return w.ws_col;
-        }
-        return 80;
-#endif
     }
 
     void inMau(const std::string& noiDung, Mau mau, bool xuongDong) {
@@ -195,7 +177,7 @@ namespace ConsoleUtil {
         datMau(mauVien);
         std::cout << indent << "+";
         if (!tieuDe.empty()) {
-            std::cout << "[ " << tieuDe << " ]" << std::string(boxWidth - 4 - tieuDe.length(), '-');
+            std::cout << "[ " << tieuDe << " ]" << std::string(boxWidth - 6 - tieuDe.length(), '-');
         } else {
             std::cout << std::string(boxWidth - 2, '-');
         }
@@ -208,29 +190,28 @@ namespace ConsoleUtil {
             }
             int rightSpace = boxWidth - 4 - static_cast<int>(text.length());
 
-            std::cout << indent << "| ";
-            datLaiMau();
-            std::cout << text << std::string(rightSpace, ' ');
             datMau(mauVien);
-            std::cout << " |\n";
+            std::cout << indent << "| ";
+
+            size_t pos = text.find(':');
+            if (pos != std::string::npos) {
+                std::string strNhan = text.substr(0, pos + 1); // Phần nhãn (gồm dấu ':') -> Xanh lá sáng
+                std::string strGiaTri = text.substr(pos + 1);   // Phần giá trị -> Trắng sáng
+                datMau(Mau::XANH_LA_SANG);
+                std::cout << strNhan;
+                datMau(Mau::TRANG_SANG);
+                std::cout << strGiaTri;
+            } else {
+                datLaiMau();
+                std::cout << text;
+            }
+
+            datMau(mauVien);
+            std::cout << std::string(rightSpace, ' ') << " |\n";
         }
 
         std::cout << indent << "+" << std::string(boxWidth - 2, '-') << "+\n";
         datLaiMau();
-    }
-
-    void veMenu(const std::string& tieuDeMenu, const std::vector<std::string>& cacLuaChon, Mau mauNhan) {
-        veTieuDe(tieuDeMenu, mauNhan);
-        std::cout << "\n";
-
-        std::vector<std::string> optionsFormatted;
-        for (size_t i = 0; i < cacLuaChon.size(); ++i) {
-            std::string opt = " [" + std::to_string(i + 1) + "] " + cacLuaChon[i];
-            optionsFormatted.push_back(opt);
-        }
-
-        veKhung(optionsFormatted, "DANH SACH CHUC NANG", mauNhan);
-        std::cout << "\n";
     }
 
     void tamDung(const std::string& loiNhan) {
@@ -244,10 +225,8 @@ namespace ConsoleUtil {
         std::cout << loiNhan;
         std::string pass = "";
         char ch;
-
-#ifdef _WIN32
-        while ((ch = _getch()) != 13) { // ASCII 13 = Enter
-            if (ch == 8) { // ASCII 8 = Backspace
+        while ((ch = _getch()) != 13) {
+            if (ch == 8) { 
                 if (!pass.empty()) {
                     pass.pop_back();
                     std::cout << "\b \b";
@@ -264,33 +243,7 @@ namespace ConsoleUtil {
             }
         }
         std::cout << "\n";
-#else
-        termios oldt, newt;
-        tcgetattr(STDIN_FILENO, &oldt);
-        newt = oldt;
-        newt.c_lflag &= ~(ECHO | ICANON);
-        tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-
-        while (read(STDIN_FILENO, &ch, 1) > 0 && ch != '\n' && ch != '\r') {
-            if (ch == 127 || ch == 8) {
-                if (!pass.empty()) {
-                    pass.pop_back();
-                    std::cout << "\b \b";
-                }
-            } else if (ch >= 32 && ch <= 126) {
-                if (chiChuSo && !std::isdigit(static_cast<unsigned char>(ch))) {
-                    continue;
-                }
-                if (doDaiToiDa > 0 && pass.length() >= doDaiToiDa) {
-                    continue;
-                }
-                pass.push_back(ch);
-                std::cout << '*';
-            }
-        }
-        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
-        std::cout << "\n";
-#endif
+    
         return pass;
     }
 
