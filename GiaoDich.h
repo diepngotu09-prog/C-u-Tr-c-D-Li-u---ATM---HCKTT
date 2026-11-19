@@ -1,6 +1,7 @@
 #ifndef GIAODICH_H_INCLUDED_
 #define GIAODICH_H_INCLUDED_
 
+#include "ConsoleUtil.h"
 #include <string>
 
 /**********************************************************
