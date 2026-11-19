@@ -65,9 +65,6 @@ namespace ConsoleUtil {
     // Ve khung hop chua noi dung
     void veKhung(const std::vector<std::string>& cacDong, const std::string& tieuDe = "", Mau mauVien = Mau::XANH_LAM);
 
-    // Ve menu chuc nang
-    void veMenu(const std::string& tieuDeMenu, const std::vector<std::string>& cacLuaChon, Mau mauNhan = Mau::XANH_LAM_SANG);
-
     // --- Tien ich Nhap xuat (Input Utilities) ---
     // Dung man hinh va doi nguoi dung nhan Enter
     void tamDung(const std::string& loiNhan = "Nhan Enter de tiep tuc...");
